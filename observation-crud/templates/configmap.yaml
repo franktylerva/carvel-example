@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlas-observation-crud-config
+data:
+  server.max-http-header-size: "65536"
+  server.port: "8080"
+  spring.datasource.url: "jdbc:postgresql://observation-crud-postgresql/obsdb"
+  spring.security.oauth2.resourceserver.jwt.jwk-set-uri: "https://adfs2019.km.spaceforce.mil/adfs/discovery/keys"
+  ssac2.kafka.messaging.crud: "true"
+  graphql.path: "/graphql"

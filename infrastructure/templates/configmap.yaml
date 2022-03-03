@@ -1,0 +1,457 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-general-config
+  namespace: atlas-infrastructure
+data:
+  application.properties: |-
+    spring.kafka.consumer.group-id=\${spring.application.name}
+    spring.kafka.bootstrap-servers=kafka-cp-kafka.kafka:9092
+    spring.kafka.properties.schema.registry.url=http://kafka-cp-schema-registry.kafka:8081
+    spring.kafka.properties.specific.avro.reader=true
+    spring.kafka.properties.auto.register.schemas=true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlas-service-url-config
+  namespace: atlas-infrastructure
+data:
+  application.properties: |-
+    ssac2.service.classification.url=http://atlas-classification-service.atlas-classification-service.svc/classification
+    ssac2.service.crud.common.url=http://atlas-common-crud-service.atlas-common-crud-service.svc/common-crud
+    ssac2.service.crud.controls.url=http://atlas-controls-crud-service.atlas-controls-crud-service.svc/controls-crud
+    ssac2.service.crud.environment.url=http://atlas-environment-crud-service.atlas-environment-crud-service.svc/environment-crud
+    ssac2.service.crud.notes.url=http://atlas-notes-crud-service.atlas-notes-crud-service.svc/notes-crud
+    ssac2.service.crud.orbital.url=http://atlas-orbital-crud-service.atlas-orbital-crud-service.svc/orbital-crud
+    ssac2.service.crud.satellite.url=http://atlas-satellite-crud-service.atlas-satellite-crud-service.svc/satellite-crud
+    ssac2.service.crud.sensor.url=http://atlas-sensor-crud-service.atlas-sensor-crud-service.svc/sensor-crud
+    ssac2.service.crud.ssaevent.url=http://atlas-ssaevent-crud-service.atlas-ssaevent-crud-service.svc/ssaevent-crud
+    ssac2.service.crud.observation.url=http://atlas-observation-crud-service.atlas-observation-crud-service.svc/observation-crud
+    ssac2.service.crud.tasking.url=http://atlas-tasking-crud-service.atlas-tasking-crud-service.svc/tasking-crud
+    ssac2.service.crud.user.url=http://atlas-user-crud-service.atlas-user-crud-service.svc/user-crud
+
+    ssac2.service.aggregator.crud.url=http://atlas-crud-aggregator-service.atlas-aggregators-service.svc/crud-aggregator
+    ssac2.service.aggregator.sensor.url=http://atlas-sensor-aggregator-service.atlas-aggregators-service.svc/sensor-aggregator
+
+    ssac2.service.asw.elcom.url=http://atlas-asw-elcom-service.atlas-asw-service.svc/elcom
+    ssac2.service.asw.eod.url=http://atlas-asw-eod-service.atlas-asw-service.svc
+    ssac2.service.asw.iodet.url=http://atlas-asw-iodet-service.atlas-asw-service.svc
+
+    ssac2.service.catalog-management.url=http://atlas-catalog-management-app.atlas-catalog-management-app.svc/catalog-management
+    ssac2.service.event-management.url=http://atlas-event-management.atlas-event-management.svc/event-management
+    ssac2.service.mandc.url=http://atlas-mandc-service.atlas-mandc-service.svc/mandc-service
+    ssac2.service.mps.url=http://atlas-mps-service.atlas-mps-service.svc/mps-service
+    ssac2.service.session-manager.url=http://atlas-session-manager-service.atlas-session-manager-service.svc/session-manager
+
+
+    cs3.receiver.url=http://cs3-output-receiver.atlas-cs3-translator-service.svc/cs3-output-receiver
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlas-classification-config
+  namespace: atlas-infrastructure
+data:
+  ssac2.classification.data-types.afwa-axxx51.default: "U"
+  ssac2.classification.data-types.afwa-fxxx01.default: "U"
+  ssac2.classification.data-types.afwa-woxx50.default: "U"
+  ssac2.classification.data-types.afwa-woxx53.default: "U"
+  ssac2.classification.data-types.afwa-woxx55.default: "U"
+  ssac2.classification.data-types.codac.default: "U"
+  ssac2.classification.data-types.dca.default: "U"
+  ssac2.classification.data-types.geodb.default: "U"
+  ssac2.classification.data-types.mu13.default: "U"
+  ssac2.classification.data-types.mu49.default: "U"
+  ssac2.classification.data-types.slr.default: "U"
+  ssac2.classification.data-types.sol-afwa.default: "U"
+  ssac2.classification.data-types.sol-asw.default: "U"
+  ssac2.classification.data-types.sol-jbh09.default: "U"
+  ssac2.classification.data-types.sp.default: "U"
+  ssac2.classification.data-types.su66.default: "U"
+  ssac2.classification.data-types.su77.default: "U"
+  ssac2.classification.data-types.su78.default: "U"
+  ssac2.classification.data-types.tcon.default: "U"
+  ssac2.classification.data-types.tcon-earth-orientation.default: "U"
+  ssac2.classification.data-types.vcm.default: "U"
+  ssac2.classification.data-types.vismag-obs.default: "U"
+
+  ssac2.classification.dc-tolerances: "U"
+  ssac2.classification.dca-temp: "U"
+  ssac2.classification.dcpdefaults: "U"
+  ssac2.classification.dcs: "U"
+  ssac2.classification.edr-bin: "U"
+  ssac2.classification.extrap-params: "U"
+  ssac2.classification.rcs: "U"
+  ssac2.classification.vismag: "U"
+  ssac2.classification.routine-tasking: "U"
+  ssac2.classification.satellite: "U"
+  ssac2.classification.sensor: "U"
+  ssac2.classification.solarflux: "U"
+  ssac2.classification.time-constants: "U"
+  ssac2.classification.ephemeris: "U"
+  ssac2.classification.session-lock: "U"
+
+  ssac2.classification.system-high: "U//DS-DOD"
+  ssac2.classification.system-dissemination: "DS-DOD"
+  ssac2.classification.system-releasabilities: "USA"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-topic-config
+  namespace: atlas-infrastructure
+data:
+  ssac2.kafka.topic.adc-trigger-requests.name: Adc.Command.AdcTriggerRequests
+  ssac2.kafka.topic.adc-command-priority-dc-request.name: Adc.Command.PriorityDcRequest
+  ssac2.kafka.topic.adc-command-routine-dc-request.name: Adc.Command.RoutineDcRequest
+
+  ssac2.kafka.topic.adc-notification-abnormal-update.name: ADC.Event.ASWAbnormalUpdateNotification
+  ssac2.kafka.topic.adc-notification-od-failure.name: ADC.Event.ASWODFailureNotification
+  ssac2.kafka.topic.adc-notification-od-finish.name: ADC.Event.ASWODFinishNotification
+  ssac2.kafka.topic.adc-notification-possible-maneuver.name: ADC.Event.ASWPossibleManeuverNotification
+  
+  ssac2.kafka.topic.mps-assoc-cmd.name: AssocService.Command.MpsAssoc
+
+  ssac2.kafka.topic.obs-metrics-age-tasks.name: age-tasks
+
+  ssac2.kafka.topic.catalog-management.notification.name: CatalogManagement.Event.CatalogManagementNotification
+
+  ssac2.kafka.topic.dcatemp-ingest.name: Cavenet.Ingest.DcaTemp
+  ssac2.kafka.topic.dcpdefaults-ingest.name: Cavenet.Ingest.DcpDefaults
+  ssac2.kafka.topic.energy-dissipation-rate-bin-ingest.name: Cavenet.Ingest.EnergyDissipationRateBin
+  ssac2.kafka.topic.extrap-params-ingest.name: Cavenet.Ingest.ExtrapolationParameters
+  ssac2.kafka.topic.inp-ingest: Cavenet.Ingest.Inp
+  ssac2.kafka.topic.pem-ingest.name: Cavenet.Ingest.PredictionErrorModel
+  ssac2.kafka.topic.satellite-ingest.name: Cavenet.Ingest.Satellite
+  ssac2.kafka.topic.sen-ingest.name: Cavenet.Ingest.Sensor
+  ssac2.kafka.topic.solarflux-ingest.name: Cavenet.Ingest.Solarflux
+  ssac2.kafka.topic.spadoc-site-ingest.name: Cavenet.Ingest.Spadoc.Site
+  ssac2.kafka.topic.tasking-data-ingest.name: Cavenet.Ingest.TaskingData
+  ssac2.kafka.topic.timeconstants-ingest.name: Cavenet.Ingest.TimeConstants
+
+  ssac2.kafka.topic.candidate-formation-results.name: CNF.Event.CandidateFormationResults
+
+  ssac2.kafka.topic.autoedrtaskinggroup-aggregate-data.name: CrudAggregatorService.Data.AutoEdrTaskingGroupAggregate
+
+
+
+
+
+
+
+
+  ssac2.kafka.topic.earth-orientation.name: Environment.Ingest.EarthOrientation
+  ssac2.kafka.topic.solarflux-axxx51.name: Environment.Ingest.SolarfluxAxxx51
+  ssac2.kafka.topic.solarflux-fluxfile.name: Environment.Ingest.SolarfluxFluxfile
+  ssac2.kafka.topic.solarflux-foxx54.name: Environment.Ingest.SolarfluxFoxx54
+  ssac2.kafka.topic.solarflux-fxxx01.name: Environment.Ingest.SolarfluxFxxx01
+  ssac2.kafka.topic.solarflux-jbh09.name: Environment.Ingest.SolarfluxJbh09
+
+  ssac2.kafka.topic.contact-cmd.name: EnvironmentDataService.Command.Contact
+  ssac2.kafka.topic.country-cmd.name: EnvironmentDataService.Command.Country
+  ssac2.kafka.topic.dcatemp-aggregate-cmd.name: EnvironmentDataService.Command.DcaTempAggregate
+  ssac2.kafka.topic.dcpdefaults-cmd.name: EnvironmentDataService.Command.DcpDefaults
+  ssac2.kafka.topic.earthconstant-cmd.name: EnvironmentDataService.Command.EarthConstant
+  ssac2.kafka.topic.geopotential-model-cmd.name: EnvironmentDataService.Command.GeopotentialModel
+  ssac2.kafka.topic.geopotential-term-cmd.name: EnvironmentDataService.Command.GeopotentialTerm
+  ssac2.kafka.topic.owner-operator-cmd.name: EnvironmentDataService.Command.OwnerOperator
+  ssac2.kafka.topic.solarflux-cmd.name: EnvironmentDataService.Command.SolarFlux
+  ssac2.kafka.topic.timeconstants-cmd.name: EnvironmentDataService.Command.TimeConstants
+  ssac2.kafka.topic.contact-data.name: EnvironmentDataService.Data.Contact
+  ssac2.kafka.topic.country-data.name: EnvironmentDataService.Data.Country
+  ssac2.kafka.topic.dcatemp-aggregate-data.name: EnvironmentDataService.Data.DcaTempAggregate
+  ssac2.kafka.topic.dcpdefaults-data.name: EnvironmentDataService.Data.DcpDefaults
+  ssac2.kafka.topic.earthconstant-data.name: EnvironmentDataService.Data.EarthConstant
+  ssac2.kafka.topic.geopotential-model-data.name: EnvironmentDataService.Data.GeopotentialModel
+  ssac2.kafka.topic.geopotential-term-data.name: EnvironmentDataService.Data.GeopotentialTerm
+  ssac2.kafka.topic.owner-operator-data.name: EnvironmentDataService.Data.OwnerOperator
+  ssac2.kafka.topic.solarflux-data.name: EnvironmentDataService.Data.SolarFlux
+  ssac2.kafka.topic.timeconstants-data.name: EnvironmentDataService.Data.TimeConstants
+
+  ssac2.kafka.topic.candidate-formation-params-cmd.name: EventDataService.Command.CandidateFormationParameters
+  ssac2.kafka.topic.decayprediction-cmd.name: EventDataService.Command.DecayPrediction
+  ssac2.kafka.topic.event-cmd.name: EventDataService.Command.Event
+  ssac2.kafka.topic.eventdata-cmd.name: EventDataService.Command.EventData
+  ssac2.kafka.topic.eventsat-cmd.name: EventDataService.Command.EventSat
+  ssac2.kafka.topic.mpe-folder-cmd.name: EventDataService.Command.MpeFolder
+  ssac2.kafka.topic.mpe-processing-config-cmd.name: EventDataService.Command.MpeProcessingConfiguration
+  ssac2.kafka.topic.candidate-formation-params-data.name: EventDataService.Data.CandidateFormationParameters
+  ssac2.kafka.topic.decayprediction-data.name: EventDataService.Data.DecayPrediction
+  ssac2.kafka.topic.event-data.name: EventDataService.Data.Event
+  ssac2.kafka.topic.eventdata-data.name: EventDataService.Data.EventData
+  ssac2.kafka.topic.eventsat-data.name: EventDataService.Data.EventSat
+  ssac2.kafka.topic.eventsat-aggregate-data.name: EventDataService.Data.EventSatAggregate
+  ssac2.kafka.topic.mpe-folder-data.name: EventDataService.Data.MpeFolder
+  ssac2.kafka.topic.mpe-processing-config-data.name: EventDataService.Data.MpeProcessingConfiguration
+
+  ssac2.kafka.topic.ephemeris-propagate-and-compare-event.name: ExternalEphemeris.Event.PropagateAndCompare
+
+  ssac2.kafka.topic.gp-ephemeris-cmd.name: SpephService.Command.GpEphemeris
+  ssac2.kafka.topic.gp-speph-results-data.name: SpephService.Data.GpSpephResults
+  ssac2.kafka.topic.sp-ephemeris-cmd.name: SpephService.Command.SpEphemeris
+  ssac2.kafka.topic.sp-speph-results-data.name: SpephService.Data.SpSpephResults
+
+
+  ssac2.kafka.topic.iodet-one-track-elset-data.name: Iodet.Data.OneTrackElementSets
+
+  ssac2.kafka.topic.retina-message-gen-event.name: MessageGen.Event.UCT
+
+
+
+  ndpp.kafka.topic.ndpp-messages-obs.name: NDPP.Data.Observations
+
+  retina.kafka.topic.retina-messages-obs.name: Retina.Data.Observations
+
+  ssac2.kafka.topic.observation-retina-eossa.name: ObservationDataService.Command.EOSSA
+
+  ssac2.kafka.topic.unassociated-metric-obs.name: ObsProcessing.Data.UnassociatedMetricObservations
+  ssac2.kafka.topic.obsproc-retag-assoc-requests.name: ObsProcessing.Command.RetagAssociationRequests
+  ssac2.kafka.topic.obsproc-verify-assoc-requests.name: ObsProcessing.Command.VerifyAssociationRequests
+  ssac2.kafka.topic.obsproc-aggregate-cmd.name: ObservationDataService.Command.ObsprocAggregate
+
+  ssac2.kafka.topic.obs-assoc-results.name: ObsProcessing.Data.ObservationAssociationResults
+  ssac2.kafka.topic.obs-assoc-results-UO.name: ObsProcessing.Data.UnassociatedObservationResults
+
+  ssac2.kafka.topic.obs-metrics-assoc-history-records.name: ObsProcessing.Data.ObservationAssociationHistoryRecords
+  ssac2.kafka.topic.obs-metrics-obs-hist-count-by-seq.name: ObsProcessing.Data.ObservationHistoryCountBySequence
+  ssac2.kafka.topic.obs-metrics-obs-hist-count-by-seq-all.name: ObsProcessing.Data.ObservationHistoryCountBySequenceAll
+  ssac2.kafka.topic.obs-metrics-obs-hist-count-by-seq-initial.name: ObsProcessing.Data.ObservationHistoryCountBySequenceInitial
+  ssac2.kafka.topic.obs-metrics-all-rate.name: ObsProcessing.Data.ObservationMetricsAllRate
+  ssac2.kafka.topic.obs-metrics-obs-time-by-sen.name: ObsProcessing.Data.ObservationTimeBySensor
+  ssac2.kafka.topic.obs-metrics-obs-time-by-sen-latest.name: ObsProcessing.Data.ObservationTimeBySensorLatest
+
+  ssac2.kafka.topic.obs-notification-excessive-residuals.name: ObsProcessing.Event.ExcessiveResiduals
+  ssac2.kafka.topic.obs-notification-observation-association.name: ObsProcessing.Event.ObservationAssociationNotifications
+
+  ssac2.kafka.topic.tle.name: Orbital.Ingest.TLE
+
+  ssac2.kafka.topic.comparison-residuals-cmd.name: OrbitalDataService.Command.ComparisonResiduals
+  ssac2.kafka.topic.create-dcsummary-cmd.name: OrbitalDataService.Command.CreateDcSummary
+  ssac2.kafka.topic.current-dcsummary-updated.name: OrbitalDataService.Event.CurrentDcSummaryUpdated
+  ssac2.kafka.topic.create-gpelements-cmd.name: OrbitalDataService.Command.CreateGpElements
+  ssac2.kafka.topic.current-gpelements-updated.name: OrbitalDataService.Event.CurrentGpElementsUpdated
+  ssac2.kafka.topic.create-statevector-cmd.name: OrbitalDataService.Command.CreateStateVector
+  ssac2.kafka.topic.current-statevector-updated.name: OrbitalDataService.Event.CurrentStateVectorUpdated
+
+  ssac2.kafka.topic.dc-ephemeris-aggregate-cmd.name: OrbitalDataService.Command.DcEphemerisAggregate
+  ssac2.kafka.topic.dciteration-cmd.name: OrbitalDataService.Command.DcIteration
+  ssac2.kafka.topic.egpsummary-cmd.name: OrbitalDataService.Command.EgpSummary
+  ssac2.kafka.topic.energy-dissipation-rate-bin-cmd.name: OrbitalDataService.Command.EnergyDissipationRateBin
+  ssac2.kafka.topic.ephemeris-staging-aggregate-cmd.name: OrbitalDataService.Command.EphemerisStagingAggregate
+  ssac2.kafka.topic.external-ephemeris-aggregate-cmd.name: OrbitalDataService.Command.ExternalEphemerisAggregate
+  ssac2.kafka.topic.extrapolation-params-cmd.name: OrbitalDataService.Command.ExtrapolationParams
+  ssac2.kafka.topic.external-gpelement-results-cmd.name: OrbitalDataService.Command.ExternalGpElementResults
+  ssac2.kafka.topic.geodb-cmd.name: OrbitalDataService.Command.Geodb
+  ssac2.kafka.topic.maneuver-cmd.name: OrbitalDataService.Command.Maneuver
+  ssac2.kafka.topic.maneuver-log-cmd.name: OrbitalDataService.Command.ManeuverLog
+  ssac2.kafka.topic.od-ephemeris-aggregate-cmd.name: OrbitalDataService.Command.OdEphemerisAggregate
+  ssac2.kafka.topic.orbit-definition-cmd.name: OrbitalDataService.Command.OrbitDefinition
+  ssac2.kafka.topic.orbit-definition-group-cmd.name: OrbitalDataService.Command.OrbitDefinitionGroup
+  ssac2.kafka.topic.orbit-maneuver-threshold-cmd.name: OrbitalDataService.Command.OrbitManeuverThreshold
+  ssac2.kafka.topic.post-maneuver-data-cmd.name: OrbitalDataService.Command.PostManeuverData
+  ssac2.kafka.topic.currentegpsummary-data.name: OrbitalDataService.Data.CurrentEgpSummary
+  ssac2.kafka.topic.currentstatevector-data.name: OrbitalDataService.Data.CurrentStateVector
+  ssac2.kafka.topic.dc-ephemeris-aggregate-data.name: OrbitalDataService.Data.DcEphemerisAggregate
+  ssac2.kafka.topic.dciteration-data.name: OrbitalDataService.Data.DcIteration
+  ssac2.kafka.topic.egpsummary-data.name: OrbitalDataService.Data.EgpSummary
+  ssac2.kafka.topic.energy-dissipation-rate-bin-data.name: OrbitalDataService.Data.EnergyDissipationRateBin
+  ssac2.kafka.topic.ephemeris-staging-aggregate-data.name: OrbitalDataService.Data.EphemerisStagingAggregate
+  ssac2.kafka.topic.external-ephemeris-aggregate-data.name: OrbitalDataService.Data.ExternalEphemerisAggregate
+  ssac2.kafka.topic.extrapolation-params-data.name: OrbitalDataService.Data.ExtrapolationParams
+  ssac2.kafka.topic.maneuver-data.name: OrbitalDataService.Data.Maneuver
+  ssac2.kafka.topic.maneuver-log-data.name: OrbitalDataService.Data.ManeuverLog
+  ssac2.kafka.topic.od-ephemeris-aggregate-data.name: OrbitalDataService.Data.OdEphemerisAggregate
+  ssac2.kafka.topic.orbit-definition-data.name: OrbitalDataService.Data.OrbitDefinition
+  ssac2.kafka.topic.orbit-definition-group-data.name: OrbitalDataService.Data.OrbitDefinitionGroup
+  ssac2.kafka.topic.orbit-maneuver-threshold-data.name: OrbitalDataService.Data.OrbitManeuverThreshold
+  ssac2.kafka.topic.post-maneuver-data-data.name: OrbitalDataService.Data.PostManeuverData
+  ssac2.kafka.topic.statevector-staging-data.name: OrbitalDataService.Data.StateVectorStaging
+
+
+  ssac2.kafka.topic.pct-event.name: ProphylacticCrossTag.Event.CrosstagCandidateNotifications
+  ssac2.kafka.topic.satellitecontrols-aggregate-data.name: SatelliteAggregatorService.Data.SatelliteTaskingControlsAggregate
+  ssac2.kafka.topic.satellitewithobsassoccontrol-aggregate-data.name: SatelliteAggregatorService.Data.SatelliteWithObsAssocControlAggregate
+
+  ssac2.kafka.topic.comment-code-cmd.name: SatelliteDataService.Command.CommentCode
+  ssac2.kafka.topic.constellation-cmd.name: SatelliteDataService.Command.Constellation
+  ssac2.kafka.topic.controls-template-criteria-cmd.name: SatelliteDataService.Command.ControlsTemplateCriteria
+  ssac2.kafka.topic.create-radar-cross-section-cmd.name: SatelliteDataService.Command.CreateRadarCrossSection
+  ssac2.kafka.topic.current-radar-cross-section-updated.name: SatelliteDataService.Event.CurrentRcsUpdated
+  ssac2.kafka.topic.current-vismag-cmd.name: SatelliteDataService.Command.CurrentVismag
+  ssac2.kafka.topic.dc-controls-cmd.name: SatelliteDataService.Command.DcControls
+  ssac2.kafka.topic.dc-tolerances-cmd.name: SatelliteDataService.Command.DcTolerances
+  ssac2.kafka.topic.dynamicconsiderparameter-cmd.name: SatelliteDataService.Command.DynamicConsiderParameter
+  ssac2.kafka.topic.element-comparison-threshold-cmd.name: SatelliteDataService.Command.ElementComparisonThreshold
+  ssac2.kafka.topic.element-conversion-controls-cmd.name: SatelliteDataService.Command.ElementConversionControls
+  ssac2.kafka.topic.ephemeris-comparison-threshold-cmd.name: SatelliteDataService.Command.EphemerisComparisonThreshold
+  ssac2.kafka.topic.integrator-controls-cmd.name: SatelliteDataService.Command.IntegratorControls
+  ssac2.kafka.topic.satellite-maneuver-threshold-cmd.name: SatelliteDataService.Command.SatelliteManeuverThreshold
+  ssac2.kafka.topic.manually-excluded-sensor-cmd.name: SatelliteDataService.Command.ManuallyExcludedSensor
+  ssac2.kafka.topic.manual-sensor-tasking-cmd.name: SatelliteDataService.Command.ManualSensorTasking
+  ssac2.kafka.topic.manual-tasking-cmd.name: SatelliteDataService.Command.ManualTasking
+  ssac2.kafka.topic.perturbation-controls-cmd.name: SatelliteDataService.Command.PerturbationControls
+  ssac2.kafka.topic.prediction-controls-cmd.name: SatelliteDataService.Command.PredictionControls
+  ssac2.kafka.topic.prediction-error-model-cmd.name: SatelliteDataService.Command.PredictionErrorModel
+  ssac2.kafka.topic.process-level-control-cmd.name: SatelliteDataService.Command.ProcessLevelControl
+  ssac2.kafka.topic.rcs-matrix-cmd.name: SatelliteDataService.Command.RcsMatrix
+  ssac2.kafka.topic.retag-priority-cmd.name: SatelliteDataService.Command.RetagPriority
+  ssac2.kafka.topic.rso-reservation-cmd.name: SatelliteDataService.Command.RsoReservation
+  ssac2.kafka.topic.sat-constellation-cmd.name: SatelliteDataService.Command.SatConstellation
+  ssac2.kafka.topic.sat-decay-cmd.name: SatelliteDataService.Command.SatDecay
+  ssac2.kafka.topic.satellite-cmd.name: SatelliteDataService.Command.Satellite
+  ssac2.kafka.topic.satellitedata-cmd.name: SatelliteDataService.Command.SatelliteData
+  ssac2.kafka.topic.satellite-list-cmd.name: SatelliteDataService.Command.SatelliteList
+  ssac2.kafka.topic.satellite-list-satellite-cmd.name: SatelliteDataService.Command.SatelliteListSatellite
+  ssac2.kafka.topic.satellite-tasking-controls-cmd.name: SatelliteDataService.Command.SatelliteTaskingControls
+  ssac2.kafka.topic.sat-launch-cmd.name: SatelliteDataService.Command.SatLaunch
+  ssac2.kafka.topic.sat-obs-association-control-cmd.name: SatelliteDataService.Command.SatObsAssociationControl
+  ssac2.kafka.topic.vismag-brightness-matrix-cmd.name: SatelliteDataService.Command.VismagBrightnessMatrix
+  ssac2.kafka.topic.visual-magnitude-cmd.name: SatelliteDataService.Command.VisualMagnitude
+  ssac2.kafka.topic.iron-cmd.name: SatelliteDataService.Command.Iron
+  ssac2.kafka.topic.mission-cmd.name: SatelliteDataService.Command.Mission 
+  ssac2.kafka.topic.payload-cmd.name: SatelliteDataService.Command.Payload 
+  ssac2.kafka.topic.payload-status-cmd.name: SatelliteDataService.Command.PayloadStatus 
+  ssac2.kafka.topic.payload-mission-cmd.name: SatelliteDataService.Command.PayloadMission 
+  ssac2.kafka.topic.payload-contact-cmd.name: SatelliteDataService.Command.PayloadContact 
+  ssac2.kafka.topic.sat-contact-cmd.name: SatelliteDataService.Command.SatContact 
+  ssac2.kafka.topic.sat-capability-cmd.name: SatelliteDataService.Command.SatCapability 
+  ssac2.kafka.topic.sat-dimension-cmd.name: SatelliteDataService.Command.SatDimension
+  ssac2.kafka.topic.iron-data.name: SatelliteDataService.Data.Iron 
+  ssac2.kafka.topic.mission-data.name: SatelliteDataService.Data.Mission 
+  ssac2.kafka.topic.payload-data.name: SatelliteDataService.Data.Payload 
+  ssac2.kafka.topic.payload-status-data.name: SatelliteDataService.Data.PayloadStatus 
+  ssac2.kafka.topic.payload-mission-data.name: SatelliteDataService.Data.PayloadMission 
+  ssac2.kafka.topic.payload-contact-data.name: SatelliteDataService.Data.PayloadContact 
+  ssac2.kafka.topic.sat-contact-data.name: SatelliteDataService.Data.SatContact 
+  ssac2.kafka.topic.sat-capability-data.name: SatelliteDataService.Data.SatCapability 
+  ssac2.kafka.topic.sat-dimension-data.name: SatelliteDataService.Data.SatDimension 
+  ssac2.kafka.topic.comment-code-data.name: SatelliteDataService.Data.CommentCode
+  ssac2.kafka.topic.constellation-data.name: SatelliteDataService.Data.Constellation
+  ssac2.kafka.topic.controls-template-criteria-data.name: SatelliteDataService.Data.ControlsTemplateCriteria
+  ssac2.kafka.topic.current-vismag-data.name: SatelliteDataService.Data.CurrentVismag
+  ssac2.kafka.topic.dc-controls-data.name: SatelliteDataService.Data.DcControls
+  ssac2.kafka.topic.dc-tolerances-data.name: SatelliteDataService.Data.DcTolerances
+  ssac2.kafka.topic.dynamicconsiderparameter-data.name: SatelliteDataService.Data.DynamicConsiderParameter
+  ssac2.kafka.topic.element-comparison-threshold-data.name: SatelliteDataService.Data.ElementComparisonThreshold
+  ssac2.kafka.topic.element-conversion-controls-data.name: SatelliteDataService.Data.ElementConversionControls
+  ssac2.kafka.topic.ephemeris-comparison-threshold-data.name: SatelliteDataService.Data.EphemerisComparisonThreshold
+  ssac2.kafka.topic.integrator-controls-data.name: SatelliteDataService.Data.IntegratorControls
+  ssac2.kafka.topic.satellite-maneuver-threshold-data.name: SatelliteDataService.Data.SatelliteManeuverThreshold
+  ssac2.kafka.topic.manually-excluded-sensor-data.name: SatelliteDataService.Data.ManuallyExcludedSensor
+  ssac2.kafka.topic.manual-sensor-tasking-data.name: SatelliteDataService.Data.ManualSensorTasking
+  ssac2.kafka.topic.manual-tasking-data.name: SatelliteDataService.Data.ManualTasking
+  ssac2.kafka.topic.perturbation-controls-data.name: SatelliteDataService.Data.PerturbationControls
+  ssac2.kafka.topic.prediction-controls-data.name: SatelliteDataService.Data.PredictionControls
+  ssac2.kafka.topic.prediction-error-model-data.name: SatelliteDataService.Data.PredictionErrorModel
+  ssac2.kafka.topic.process-level-control-data.name: SatelliteDataService.Data.ProcessLevelControl
+  ssac2.kafka.topic.rcs-matrix-data.name: SatelliteDataService.Data.RcsMatrix
+  ssac2.kafka.topic.retag-priority-data.name: SatelliteDataService.Data.RetagPriority
+  ssac2.kafka.topic.rso-reservation-data.name: SatelliteDataService.Data.RsoReservation
+  ssac2.kafka.topic.sat-constellation-data.name: SatelliteDataService.Data.SatConstellation
+  ssac2.kafka.topic.sat-decay-data.name: SatelliteDataService.Data.SatDecay
+  ssac2.kafka.topic.satellite-data.name: SatelliteDataService.Data.Satellite
+  ssac2.kafka.topic.satellitedata-data.name: SatelliteDataService.Data.SatelliteData
+  ssac2.kafka.topic.satellite-list-data.name: SatelliteDataService.Data.SatelliteList
+  ssac2.kafka.topic.satellite-list-satellite-data.name: SatelliteDataService.Data.SatelliteListSatellite
+  ssac2.kafka.topic.satellite-tasking-controls-data.name: SatelliteDataService.Data.SatelliteTaskingControls
+  ssac2.kafka.topic.sat-launch-data.name: SatelliteDataService.Data.SatLaunch
+  ssac2.kafka.topic.sat-obs-association-control-data.name: SatelliteDataService.Data.SatObsAssociationControl
+  ssac2.kafka.topic.vismag-brightness-matrix-data.name: SatelliteDataService.Data.VismagBrightnessMatrix
+  ssac2.kafka.topic.visual-magnitude-data.name: SatelliteDataService.Data.VisualMagnitude
+
+  ssac2.kafka.topic.sensor-calibration-aggregate-data.name: SensorAggregatorService.Data.SensorCalibrationAggregate
+  ssac2.kafka.topic.sensor-controls-aggregate-data.name: SensorAggregatorService.Data.SensorControlsAggregate
+
+  ssac2.kafka.topic.auto-edr-tasking-group-cmd.name: SensorDataService.Command.AutoEdrTaskingGroup
+  ssac2.kafka.topic.auto-maintenance-class-cmd.name: SensorDataService.Command.AutoMaintenanceClass
+  ssac2.kafka.topic.custom-tasking-group-cmd.name: SensorDataService.Command.CustomTaskingGroup
+  ssac2.kafka.topic.detect-angular-rate-cmd.name: SensorDataService.Command.DetectAngularRate
+  ssac2.kafka.topic.detect-background-sky-cmd.name: SensorDataService.Command.DetectBackgroundSky
+  ssac2.kafka.topic.forced-sensor-tasking-cmd.name: SensorDataService.Command.ForcedSensorTasking
+  ssac2.kafka.topic.location-cmd.name: SensorDataService.Command.Location
+  ssac2.kafka.topic.optical-detectability-cmd.name: SensorDataService.Command.OpticalDetectability
+  ssac2.kafka.topic.sat-cat-map-cmd.name: SensorDataService.Command.SatCatMap
+  ssac2.kafka.topic.sat-cat-tasking-age-cmd.name: SensorDataService.Command.SatCatTaskingAge
+  ssac2.kafka.topic.satellite-exclusion-range-cmd.name: SensorDataService.Command.SatelliteExclusionRange
+  ssac2.kafka.topic.sensor-cmd.name: SensorDataService.Command.Sensor
+  ssac2.kafka.topic.sensor-bias-adjustments-cmd.name: SensorDataService.Command.SensorBiasAdjustments
+  ssac2.kafka.topic.sensor-calibration-cmd.name: SensorDataService.Command.SensorCalibration
+  ssac2.kafka.topic.sensor-cal-tolerances-cmd.name: SensorDataService.Command.SensorCalTolerances
+  ssac2.kafka.topic.sensor-controls-cmd.name: SensorDataService.Command.SensorControls
+  ssac2.kafka.topic.sensor-detection-data-cmd.name: SensorDataService.Command.SensorDetectionData
+  ssac2.kafka.topic.sensor-detection-model-cmd.name: SensorDataService.Command.SensorDetectionModel
+  ssac2.kafka.topic.sensor-group-cmd.name: SensorDataService.Command.SensorGroup
+  ssac2.kafka.topic.sensor-grouping-cmd.name: SensorDataService.Command.SensorGrouping
+  ssac2.kafka.topic.sensor-limit-cmd.name: SensorDataService.Command.SensorLimit
+  ssac2.kafka.topic.sensor-maintenance-event-cmd.name: SensorDataService.Command.SensorMaintenanceEvent
+  ssac2.kafka.topic.sensor-maintenance-window-cmd.name: SensorDataService.Command.SensorMaintenanceWindow
+  ssac2.kafka.topic.sensor-tasking-controls-cmd.name: SensorDataService.Command.SensorTaskingControls
+  ssac2.kafka.topic.site-cmd.name: SensorDataService.Command.Site
+  ssac2.kafka.topic.site-susceptibility-cmd.name: SensorDataService.Command.SiteSusceptibility
+  ssac2.kafka.topic.tasking-code-cmd.name: SensorDataService.Command.TaskingCode
+  ssac2.kafka.topic.tasking-code-set-cmd.name: SensorDataService.Command.TaskingCodeSet
+  ssac2.kafka.topic.tasking-group-excluded-sensor-cmd.name: SensorDataService.Command.TaskingGroupExcludedSensor
+  ssac2.kafka.topic.auto-edr-tasking-group-data.name: SensorDataService.Data.AutoEdrTaskingGroup
+  ssac2.kafka.topic.auto-maintenance-class-data.name: SensorDataService.Data.AutoMaintenanceClass
+  ssac2.kafka.topic.custom-tasking-group-data.name: SensorDataService.Data.CustomTaskingGroup
+  ssac2.kafka.topic.customtaskinggroup-aggregate-data.name: SensorDataService.Data.CustomTaskingGroupAggregate
+  ssac2.kafka.topic.detect-angular-rate-data.name: SensorDataService.Data.DetectAngularRate
+  ssac2.kafka.topic.detect-background-sky-data.name: SensorDataService.Data.DetectBackgroundSky
+  ssac2.kafka.topic.forced-sensor-tasking-data.name: SensorDataService.Data.ForcedSensorTasking
+  ssac2.kafka.topic.location-data.name: SensorDataService.Data.Location
+  ssac2.kafka.topic.optical-detectability-data.name: SensorDataService.Data.OpticalDetectability
+  ssac2.kafka.topic.sat-cat-map-data.name: SensorDataService.Data.SatCatMap
+  ssac2.kafka.topic.sat-cat-tasking-age-data.name: SensorDataService.Data.SatCatTaskingAge
+  ssac2.kafka.topic.satellite-exclusion-range-data.name: SensorDataService.Data.SatelliteExclusionRange
+  ssac2.kafka.topic.sensor-data.name: SensorDataService.Data.Sensor
+  ssac2.kafka.topic.sensor-bias-adjustments-data.name: SensorDataService.Data.SensorBiasAdjustments
+  ssac2.kafka.topic.sensor-calibration-data.name: SensorDataService.Data.SensorCalibration
+  ssac2.kafka.topic.sensor-cal-tolerances-data.name: SensorDataService.Data.SensorCalTolerances
+  ssac2.kafka.topic.sensor-controls-data.name: SensorDataService.Data.SensorControls
+  ssac2.kafka.topic.sensor-detection-data-data.name: SensorDataService.Data.SensorDetectionData
+  ssac2.kafka.topic.sensor-detection-model-data.name: SensorDataService.Data.SensorDetectionModel
+  ssac2.kafka.topic.sensordetectionmodeldata-aggregate-data.name: SensorDataService.Data.SensorDetectionModelDataAggregate
+  ssac2.kafka.topic.sensor-group-data.name: SensorDataService.Data.SensorGroup
+  ssac2.kafka.topic.sensorgroupgrouping-aggregate-data.name: SensorDataService.Data.SensorGroupGroupingAggregate
+  ssac2.kafka.topic.sensor-grouping-data.name: SensorDataService.Data.SensorGrouping
+  ssac2.kafka.topic.sensor-limit-data.name: SensorDataService.Data.SensorLimit
+  ssac2.kafka.topic.sensorlocationlimit-aggregate-data.name: SensorDataService.Data.SensorLocationLimitAggregate
+  ssac2.kafka.topic.sensor-maintenance-event-data.name: SensorDataService.Data.SensorMaintenanceEvent
+  ssac2.kafka.topic.sensor-maintenance-window-data.name: SensorDataService.Data.SensorMaintenanceWindow
+  ssac2.kafka.topic.sensor-tasking-controls-data.name: SensorDataService.Data.SensorTaskingControls
+  ssac2.kafka.topic.sensortaskingcontrols-aggregate-data.name: SensorDataService.Data.SensorTaskingControlsAggregate
+  ssac2.kafka.topic.site-data.name: SensorDataService.Data.Site
+  ssac2.kafka.topic.site-susceptibility-data.name: SensorDataService.Data.SiteSusceptibility
+  ssac2.kafka.topic.tasking-code-data.name: SensorDataService.Data.TaskingCode
+  ssac2.kafka.topic.tasking-code-set-data.name: SensorDataService.Data.TaskingCodeSet
+  ssac2.kafka.topic.taskingcodesetcode-aggregate-data.name: SensorDataService.Data.TaskingCodeSetCodeAggregate
+  ssac2.kafka.topic.tasking-group-excluded-sensor-data.name: SensorDataService.Data.TaskingGroupExcludedSensor
+
+  ssac2.kafka.topic.routine-sensor-tasking-request-cmd.name: SensorTasking.Command.RoutineSensorTaskingRequest
+  ssac2.kafka.topic.routine-sensor-tasking.progress-event.name: SensorTasking.Event.ProgressEvent
+
+  ssac2.kafka.topic.obs-metrics-withkey-alert.name: Retina.Data.AlertDataWithKey
+  ssac2.kafka.topic.obs-metrics-withkey-eossa.name: Retina.Data.EossaDataWithKey
+  ssac2.kafka.topic.obs-metrics-withkey-image.name: Retina.Data.ImageDataWithKey
+  ssac2.kafka.topic.obs-metrics-json-alert-records.name: Retina.Data.JSONAlertRecord
+  ssac2.kafka.topic.obs-metrics-json-eossa-records.name: Retina.Data.JSONEossaRecord
+  ssac2.kafka.topic.obs-metrics-json-image-records.name: Retina.Data.JSONImageRecord
+  ssac2.kafka.topic.obs-metrics-count-alert.name: Retina.Data.TotalAlertCount
+  ssac2.kafka.topic.obs-metrics-count-eossa.name: Retina.Data.TotalEossaCount
+  ssac2.kafka.topic.obs-metrics-count-image.name: Retina.Data.TotalImageCount
+
+  ssac2.kafka.topic.observation-retina-cmd.name: Retina.Data.Observations
+
+  ssac2.kafka.topic.observation-retina-event-eossa.name: Retina.Event.EOSSA
+
+  ssac2.kafka.topic.routine-satellite-tasking-aggregate-cmd.name: TaskingDataService.Command.RoutineSatelliteTaskingAggregate
+  ssac2.kafka.topic.routine-satellite-tasking-data.name: TaskingDataService.Data.RoutineSatelliteTasking
+  ssac2.kafka.topic.routine-satellite-tasking-aggregate-data.name: TaskingDataService.Data.RoutineSatelliteTaskingAggregate
+  ssac2.kafka.topic.routine-sensor-tasking-data.name: TaskingDataService.Data.RoutineSensorTasking
+  ssac2.kafka.topic.routine-sensor-tasking-response-data.name: TaskingDataService.Data.RoutineSensorTaskingResponse
+  ssac2.kafka.topic.routine-sensor-tasking-run-data.name: TaskingDataService.Data.RoutineSensorTaskingRun
+
+  ssac2.topic.notification.event.name: NotificationManager.Event.Notification
+  cs3.kafka.topic.cs3-messages-obs.name: CS3.Data.Observations
+  cs3.kafka.topic.cs3-ingestmetricobs-history.name: IngestMetricObs.History.Observations

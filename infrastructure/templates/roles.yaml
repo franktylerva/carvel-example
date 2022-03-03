@@ -1,0 +1,24 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: atlas-infrastructure
+  name: namespace-reader
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps", "pods", "services", "endpoints", "secrets"]
+    verbs: ["get", "list", "watch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: namespace-reader-binding
+  namespace: atlas-infrastructure
+subjects:
+- kind: ServiceAccount
+  name: observation-crud-helm
+  namespace: atlas-observation-crud-service
+  apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: namespace-reader
+  apiGroup: ""
