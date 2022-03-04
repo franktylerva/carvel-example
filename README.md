@@ -1,6 +1,12 @@
 # atlas-local
 
 ```
+helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+helm repo update
+```
+
+
+```
 helm install infrastructure ./infrastructure -n atlas-infrastructure --create-namespace
 ```
 
