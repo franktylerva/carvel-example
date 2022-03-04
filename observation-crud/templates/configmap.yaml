@@ -9,3 +9,4 @@ data:
   spring.security.oauth2.resourceserver.jwt.jwk-set-uri: "https://adfs2019.km.spaceforce.mil/adfs/discovery/keys"
   ssac2.kafka.messaging.crud: "true"
   graphql.path: "/graphql"
+  management.endpoint.health.group.readiness.include: "readinessState,schema"
