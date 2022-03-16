@@ -10,3 +10,5 @@ data:
   ssac2.kafka.messaging.crud: "true"
   graphql.path: "/graphql"
   management.endpoint.health.group.readiness.include: "readinessState,schema"
+  management.endpoints.web.exposure.include: "health,startup"
+  management.endpoint.startup.enabled: "true"

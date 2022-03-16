@@ -1,10 +1,17 @@
 # atlas-local
 
 ```
+helm install nginx-ingress bitnami/nginx-ingress-controller
+```
+
+```
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
 ```
 
+```
+kubectl create configmap scripts -n atlas-observation-crud-service --from-file=./sql 
+```
 
 ```
 helm install infrastructure ./infrastructure -n atlas-infrastructure --create-namespace
