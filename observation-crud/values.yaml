@@ -86,7 +86,16 @@ app:
 
 postgresql:
   primary:
-    extraEnvVarsCM: scripts
+    extraEnvVars:
+      - name: PGPASSWORD
+        value: dbpassword
+    extraVolumeMounts:
+      - name: scripts
+        mountPath: /scripts
+    extraVolumes:
+      - name: scripts
+        configMap:
+          name: scripts
   global:
     postgresql:
       auth:

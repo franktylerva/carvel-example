@@ -47,11 +47,13 @@ spec:
             httpGet:
               path: /observation-crud/actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
+            initialDelaySeconds: 20
           readinessProbe:
             httpGet:
               path: /observation-crud/actuator/health/readiness
               port: http
+            periodSeconds: 5
+            initialDelaySeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
