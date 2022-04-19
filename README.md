@@ -25,3 +25,11 @@ helm install kafka confluentinc/cp-helm-charts -n kafka -f ./kafka/values.yaml -
 ```
 helm install observation-crud ./observation-crud -n atlas-observation-crud-service --create-namespace
 ```
+
+```
+kubectl exec -it observation-crud-postgresql-0 -n atlas-observation-crud-service -- sh -c "psql -U dbuser -d obsdb -a -f /scripts/create-schema.sql"
+```
+
+```
+kubectl exec -it observation-crud-postgresql-0 -n atlas-observation-crud-service -- sh -c "psql -U dbuser -d obsdb -a -f /scripts/drop-schema.sql"
+```

@@ -6,10 +6,11 @@ replicaCount: 1
 
 image:
   repository: harbor.cp.az.km.spaceforce.mil/atlas/observation-crud/observation-crud-service
+  # repository: harbor.cp.az.km.spaceforce.mil/legos-test/observation-crud/observation-crud-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
-
+  # tag: bp26
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -62,7 +63,7 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: "1.5"
+    # cpu: "3"
     memory: "3072Mi"
   requests:
     cpu: "0.3"
