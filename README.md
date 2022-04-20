@@ -1,25 +1,26 @@
 # atlas-local
-
+Both the kapp and Helm are required.  Install these tools using brew.
 ```
-helm install nginx-ingress bitnami/nginx-ingress-controller
+brew install helm
+
+brew tap vmware-tanzu/carvel
+brew install kapp
 ```
 
+If you don't already have the Confluent Helm Chart repository configured, run the following commands.
 ```
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm repo update
 ```
 
+Deploy the suite of applications:
 ```
-kubectl create configmap scripts -n atlas-observation-crud-service --from-file=./sql 
-```
-
-```
-helm install infrastructure ./infrastructure -n atlas-infrastructure --create-namespace
+./deploy
 ```
 
-
+Undeploy the suite of applications:
 ```
-helm install kafka confluentinc/cp-helm-charts -n kafka -f ./kafka/values.yaml --create-namespace
+./undeploy.sh
 ```
 
 ```
