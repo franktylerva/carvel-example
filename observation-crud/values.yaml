@@ -5,11 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: harbor.cp.az.km.spaceforce.mil/atlas/observation-crud/observation-crud-service
+  #repository: harbor.cp.az.km.spaceforce.mil/atlas/observation-crud/observation-crud-service
+  repository: observation-crud-app 
   # repository: harbor.cp.az.km.spaceforce.mil/legos-test/observation-crud/observation-crud-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  #tag: "latest"
+  tag: 1.0.0-SNAPSHOT
   # tag: bp26
 imagePullSecrets: []
 nameOverride: ""
@@ -84,23 +86,3 @@ affinity: {}
 
 app:
   configMap: atlas-observation-crud-config
-
-postgresql:
-  primary:
-    extraEnvVars:
-      - name: PGPASSWORD
-        value: dbpassword
-    extraVolumeMounts:
-      - name: scripts
-        mountPath: /scripts
-    extraVolumes:
-      - name: scripts
-        configMap:
-          name: scripts
-  global:
-    postgresql:
-      auth:
-        postgresPassword: password
-        username: dbuser
-        password: dbpassword
-        database: obsdb

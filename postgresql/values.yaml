@@ -1,0 +1,18 @@
+primary:
+  extraEnvVars:
+    - name: PGPASSWORD
+      value: dbpassword
+  extraVolumeMounts:
+    - name: scripts
+      mountPath: /docker-entrypoint-initdb.d/
+  extraVolumes:
+    - name: scripts
+      configMap:
+        name: scripts
+global:
+  postgresql:
+    auth:
+      postgresPassword: password
+      username: dbuser
+      password: dbpassword
+      database: obsdb
