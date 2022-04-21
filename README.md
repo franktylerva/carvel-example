@@ -5,6 +5,7 @@ brew install helm
 
 brew tap vmware-tanzu/carvel
 brew install kapp
+brew install ytt
 ```
 
 If you don't already have the Confluent Helm Chart repository configured, run the following commands.
