@@ -16,3 +16,7 @@ global:
       username: dbuser
       password: dbpassword
       database: obsdb
+
+commonAnnotations:
+  kapp.k14s.io/change-group: "atlas/observation-crud-postgresql"
+  kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-deployment"

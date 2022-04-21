@@ -1,0 +1,14 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@ def resource(kind, name):
+kind: #@ kind
+metadata:
+  name: #@ name
+#@ end
+
+#@overlay/match by=overlay.subset(resource("Deployment", "kafka-cp-schema-registry")),expects=1
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    kapp.k14s.io/change-group: atlas/kafka-deployment

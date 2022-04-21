@@ -4,6 +4,9 @@ metadata:
   name: {{ include "helm.fullname" . }}
   labels:
     {{- include "helm.labels" . | nindent 4 }}
+  annotations:
+    kapp.k14s.io/change-group: "atlas/observation-crud-deployment"
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/observation-crud-postgresql"
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
