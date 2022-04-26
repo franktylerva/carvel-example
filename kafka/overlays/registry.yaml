@@ -11,4 +11,5 @@ metadata:
 metadata:
   #@overlay/match missing_ok=True
   annotations:
-    kapp.k14s.io/change-group: atlas/kafka-deployment
+    kapp.k14s.io/change-group: atlas/kafka-registry
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-broker"
