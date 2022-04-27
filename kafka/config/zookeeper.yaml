@@ -1,10 +1,8 @@
 #@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:library", "library")
 
-#@ def resource(kind, name):
-kind: #@ kind
-metadata:
-  name: #@ name
-#@ end
+#@ app = library.get("app")
+#@ resource = app.export("resource")
 
 #@overlay/match by=overlay.subset(resource("StatefulSet", "kafka-cp-zookeeper")),expects=1
 ---

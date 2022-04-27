@@ -16,5 +16,3 @@ data:
   spring.main.allow-circular-references: "true"
   spring.cloud.config.watch.enabled: "false"
   SCHEMA_REGISTRY_URL: "http://kafka-cp-schema-registry.kafka:8081"
-  avroschema.config: classpath:config.yaml
-  avroschema.registryUrl: "http://kafka-cp-schema-registry.kafka:8081"

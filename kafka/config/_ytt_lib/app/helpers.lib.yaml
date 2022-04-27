@@ -1,0 +1,5 @@
+#@ def resource(kind, name):
+kind: #@ kind
+metadata:
+  name: #@ name
+#@ end

@@ -36,11 +36,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: DEBUG
-              value: "true"
-            - name: SCHEMA_REGISTRY_URL
-              value: "http://kafka-cp-schema-registry.kafka:8081"
           envFrom:
           - configMapRef:
               name: {{ .Values.app.configMap }}
