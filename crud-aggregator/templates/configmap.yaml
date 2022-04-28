@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: atlas-crud-aggregator-config
 data:
-  spring.security.oauth2.client.provider.atlas.token-uri: https://adfs2019.km.spaceforce.mil/adfs/oauth2/token
+  spring.security.oauth2.client.provider.atlas.token-uri: http://keycloak/auth/realms/master/protocol/openid-connect/token
