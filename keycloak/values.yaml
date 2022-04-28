@@ -1,0 +1,14 @@
+auth:
+  adminUser: admin
+  adminPassword: admin
+
+commonAnnotations:
+  kapp.k14s.io/change-group: "keycloak"
+  kapp.k14s.io/change-rule: "upsert after upserting keycloak-postgresql"
+
+postgresql:
+  commonAnnotations:
+    kapp.k14s.io/change-group: "keycloak-postgresql"
+
+service:
+  type: ClusterIP
