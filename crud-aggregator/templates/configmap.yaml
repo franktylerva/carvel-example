@@ -3,4 +3,19 @@ kind: ConfigMap
 metadata:
   name: atlas-crud-aggregator-config
 data:
-  spring.security.oauth2.client.provider.atlas.token-uri: http://keycloak/auth/realms/master/protocol/openid-connect/token
+  spring.security.oauth2.client.provider.atlas.token-uri: http://keycloak.keycloak/auth/realms/master/protocol/openid-connect/token
+--- 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlas-crud-aggregator-schema-config
+data:
+  config.yaml: |-
+    files:
+    - fileName: app/lib/crud-aggregator-avro-${project.version}.jar
+      schemas:
+        - schemaName: atlas.sensor.crud.avro.model.AutoEdrTaskingGroupAggregate
+          subjects:
+            - CrudAggregatorService.Command.AutoEdrTaskingGroupAggregate-value
+            - CrudAggregatorService.Data.AutoEdrTaskingGroupAggregate-value
+            - CrudAggregatorService.Response.AutoEdrTaskingGroupAggregate-value

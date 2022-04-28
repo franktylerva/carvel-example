@@ -23,6 +23,10 @@ spec:
       labels:
         {{- include "crud-aggregator.selectorLabels" . | nindent 8 }}
     spec:
+      volumes: 
+        - name: schema-config
+          configMap:
+            name: atlas-crud-aggregator-schema-config
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -36,6 +40,17 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CRUD_AGGREGATOR_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "aggregator-secrets"
+                  key: CRUD_AGGREGATOR_CLIENT_ID
+            - name: CRUD_AGGREGATOR_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "aggregator-secrets"
+                  key: CRUD_AGGREGATOR_CLIENT_SECRET
           ports:
             - name: http
               containerPort: 80
@@ -50,6 +65,9 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: schema-config
+              mountPath: /opt/atlas
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
