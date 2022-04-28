@@ -18,6 +18,10 @@ subjects:
   name: observation-crud-helm
   namespace: atlas-observation-crud-service
   apiGroup: ""
+- kind: ServiceAccount
+  name: crud-aggregator
+  namespace: atlas-observation-crud-service
+  apiGroup: ""
 roleRef:
   kind: ClusterRole
   name: namespace-reader
