@@ -8,10 +8,16 @@ brew install kapp
 brew install ytt
 ```
 
-If you don't already have the Confluent Helm Chart repository configured, run the following commands.
+This project uses Helm Charts from Confluent and Bitnami.  Before running any of these scripts you'll need to add these chart repositories:
 ```
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
+```
+
+Optionally, you can deploy Prometheus to monitor the cluster.
+```
+kapp deploy -a prometheus -f <(helm template prometheus bitnami/kube-prometheus)
 ```
 
 Deploy the suite of applications:
