@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: atlas-crud-aggregator-config
 data:
-  spring.security.oauth2.client.provider.atlas.token-uri: http://keycloak.keycloak/auth/realms/master/protocol/openid-connect/token
+  spring.security.oauth2.client.provider.atlas.tokenUri: http://atlas-orbital-crud-service.atlas-orbital-crud-service.svc/orbital-crud/token
 --- 
 apiVersion: v1
 kind: ConfigMap

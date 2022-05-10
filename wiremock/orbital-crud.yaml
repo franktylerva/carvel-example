@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orbital-crud
+  namespace: atlas-orbital-crud-service
+  labels:
+    app: orbital-crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orbital-crud
+  template:
+    metadata:
+      labels:
+        app: orbital-crud
+    spec:
+      containers:
+      - name: wiremock
+        image: wiremock/wiremock
+        args:
+          - --record-mappings
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-orbital-crud-service
+  namespace: atlas-orbital-crud-service
+spec:
+  selector:
+    app: orbital-crud
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+
+# 
+
+# http://atlas-orbital-crud-service.atlas-orbital-crud-service.svc/orbital-crud/graphql
+
+
+# http://atlas-sensor-crud-service.atlas-sensor-crud-service.svc/sensor-crud/graphql

@@ -41,6 +41,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: SCHEMA_REGISTRY_URL
+              value: "http://kafka-cp-schema-registry.kafka:8081"
             - name: CRUD_AGGREGATOR_CLIENT_ID
               valueFrom:
                 secretKeyRef:

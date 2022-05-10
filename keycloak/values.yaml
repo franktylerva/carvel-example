@@ -12,3 +12,11 @@ postgresql:
 
 service:
   type: ClusterIP
+
+resources:
+  limits:
+    cpu: "5000m"
+    memory: "3072Mi"
+  requests:
+    cpu: "1000m"
+    memory: "1024Mi"
