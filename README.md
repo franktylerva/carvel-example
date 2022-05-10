@@ -1,4 +1,6 @@
 # atlas-local
+This repository is used for setting up Atlas applications in a local development environment for demonstration and testing purposes.  Several tools are used from the Carvel project to demonstrate overlays (ytt) and ordered deployments (kapp).  This project also demonstrates how these tools work with other deployment technologies such as Helm, kustomize, and plain old k8s yaml files.
+
 Both the kapp and Helm are required.  Install these tools using brew.
 ```
 brew install helm
