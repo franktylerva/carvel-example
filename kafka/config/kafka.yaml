@@ -12,7 +12,30 @@ metadata:
     kapp.k14s.io/change-group: atlas/kafka-broker
     kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
 
+#@overlay/match by=overlay.subset(resource("Service", "kafka-cp-kafka")),expects=1
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    kapp.k14s.io/change-group: atlas/kafka-broker
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
+
+#@overlay/match by=overlay.subset(resource("Service", "kafka-cp-kafka-headless")),expects=1
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    kapp.k14s.io/change-group: atlas/kafka-broker
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
+
 #@overlay/match by=overlay.subset(resource("StatefulSet", "kafka-cp-zookeeper")),expects=1
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    kapp.k14s.io/change-group: atlas/kafka-zookeeper
+
+#@overlay/match by=overlay.subset(resource("Service", "kafka-cp-kafka-headless")),expects=1
 ---
 metadata:
   #@overlay/match missing_ok=True
