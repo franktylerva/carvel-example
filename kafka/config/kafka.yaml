@@ -4,30 +4,6 @@
 #@ app = library.get("app")
 #@ resource = app.export("resource")
 
-#@overlay/match by=overlay.subset(resource("StatefulSet", "kafka-cp-kafka")),expects=1
----
-metadata:
-  #@overlay/match missing_ok=True
-  annotations:
-    kapp.k14s.io/change-group: atlas/kafka-broker
-    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
-
-#@overlay/match by=overlay.subset(resource("Service", "kafka-cp-kafka")),expects=1
----
-metadata:
-  #@overlay/match missing_ok=True
-  annotations:
-    kapp.k14s.io/change-group: atlas/kafka-broker
-    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
-
-#@overlay/match by=overlay.subset(resource("Service", "kafka-cp-kafka-headless")),expects=1
----
-metadata:
-  #@overlay/match missing_ok=True
-  annotations:
-    kapp.k14s.io/change-group: atlas/kafka-broker
-    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
-
 #@overlay/match by=overlay.subset(resource("StatefulSet", "kafka-cp-zookeeper")),expects=1
 ---
 metadata:
@@ -35,12 +11,29 @@ metadata:
   annotations:
     kapp.k14s.io/change-group: atlas/kafka-zookeeper
 
+#@overlay/match by=overlay.subset(resource("Service", "kafka-cp-zookeeper-headless")),expects=1
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    kapp.k14s.io/change-group: atlas/kafka-cp-zookeeper-headless
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-zookeeper"
+
+#@overlay/match by=overlay.subset(resource("StatefulSet", "kafka-cp-kafka")),expects=1
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    kapp.k14s.io/change-group: atlas/kafka-broker
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-cp-zookeeper-headless"
+
 #@overlay/match by=overlay.subset(resource("Service", "kafka-cp-kafka-headless")),expects=1
 ---
 metadata:
   #@overlay/match missing_ok=True
   annotations:
-    kapp.k14s.io/change-group: atlas/kafka-zookeeper
+    kapp.k14s.io/change-group: kafka-cp-kafka-headless
+    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-broker"
 
 #@overlay/match by=overlay.subset(resource("Deployment", "kafka-cp-control-center")),expects=1
 ---
@@ -48,7 +41,7 @@ metadata:
   #@overlay/match missing_ok=True
   annotations:
     kapp.k14s.io/change-group: atlas/kafka-control-center
-    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-broker"
+    kapp.k14s.io/change-rule: "upsert after upserting kafka-cp-kafka-headless"
 
 #@overlay/match by=overlay.subset(resource("Deployment", "kafka-cp-schema-registry")),expects=1
 ---
@@ -56,4 +49,4 @@ metadata:
   #@overlay/match missing_ok=True
   annotations:
     kapp.k14s.io/change-group: atlas/kafka-schema-registry
-    kapp.k14s.io/change-rule: "upsert after upserting atlas/kafka-broker"
+    kapp.k14s.io/change-rule: "upsert after upserting kafka-cp-kafka-headless"
