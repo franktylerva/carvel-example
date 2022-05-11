@@ -1,8 +1,9 @@
 #!/bin/bash
 
+rm -rf bundle
 mkdir -p bundle/.imgpkg
 
-OUTPUT=bundle/config.yaml
+OUTPUT=bundle/config.yml
 
 kubectl create ns kafka --dry-run=client -o yaml > $OUTPUT
 echo --- >> $OUTPUT
@@ -43,7 +44,7 @@ echo --- >> $OUTPUT
 helm template crud-aggregator ./crud-aggregator --skip-tests -n atlas-observation-crud-service | kubectl apply -f- --dry-run=client -o yaml -n atlas-observation-crud-service >> $OUTPUT
 echo --- >> $OUTPUT
 
-kbld -f bundle/config.yaml --imgpkg-lock-output bundle/.imgpkg/images.yaml
+kbld -f bundle/config.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
 
 imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas-bundle:1.0.0 -f bundle
 
