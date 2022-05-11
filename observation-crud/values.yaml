@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
   #repository: harbor.cp.az.km.spaceforce.mil/atlas/observation-crud/observation-crud-service
-  repository: observation-crud-app 
-  # repository: harbor.cp.az.km.spaceforce.mil/legos-test/observation-crud/observation-crud-service
+  # repository: observation-crud-app 
+  repository: harbor.cp.az.km.spaceforce.mil/legos-test/observation-crud-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: "latest"
