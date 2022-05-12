@@ -3,9 +3,11 @@
 rm -rf bundle
 mkdir -p bundle/.imgpkg
 
-OUTPUT=bundle/config.yml
+OUTPUT=bundle/config-temp.yml
 
-kubectl create ns kafka --dry-run=client -o yaml > $OUTPUT
+echo "Generating the k8s Configuration..."
+
+ > $OUTPUT
 echo --- >> $OUTPUT
 
 kubectl create ns atlas-infrastructure --dry-run=client -o yaml >> $OUTPUT
@@ -32,19 +34,21 @@ echo --- >> $OUTPUT
 helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/values.yaml >> $OUTPUT
 echo --- >> $OUTPUT
 
-helm template infrastructure ./infrastructure --skip-tests | kubectl apply -f- --dry-run=client -o yaml -n atlas-infrastructure >> $OUTPUT
+helm template infrastructure ./infrastructure --skip-tests >> $OUTPUT
 echo --- >> $OUTPUT
 
-helm template observation-crud bitnami/postgresql --skip-tests -n atlas-observation-crud-service --values ./postgresql/values.yaml | kubectl apply -f- --dry-run=client -o yaml -n atlas-observation-crud-service >> $OUTPUT
+helm template observation-crud bitnami/postgresql --skip-tests -n atlas-observation-crud-service --values ./postgresql/values.yaml >> $OUTPUT
 echo --- >> $OUTPUT
 
-helm template observation-crud ./observation-crud --skip-tests -n atlas-observation-crud-service | kubectl apply -f- --dry-run=client -o yaml -n atlas-observation-crud-service >> $OUTPUT
+helm template observation-crud ./observation-crud --skip-tests -n atlas-observation-crud-service >> $OUTPUT
 echo --- >> $OUTPUT
 
-helm template crud-aggregator ./crud-aggregator --skip-tests -n atlas-observation-crud-service | kubectl apply -f- --dry-run=client -o yaml -n atlas-observation-crud-service >> $OUTPUT
+helm template crud-aggregator ./crud-aggregator --skip-tests -n atlas-observation-crud-service >> $OUTPUT
 echo --- >> $OUTPUT
 
-kbld -f bundle/config.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
+echo "Generating the bundle..."
 
-imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas-bundle:1.0.0 -f bundle
+kbld -f bundle/config-temp.yml --imgpkg-lock-output bundle/.imgpkg/images.yml > bundle/config.yml
+
+rm bundle/config-temp.yml
 
