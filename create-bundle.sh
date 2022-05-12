@@ -48,7 +48,5 @@ echo --- >> $OUTPUT
 
 echo "Generating the bundle..."
 
-kbld -f bundle/config-temp.yml --imgpkg-lock-output bundle/.imgpkg/images.yml > bundle/config.yml
-
-rm bundle/config-temp.yml
+kbld -f bundle/config-temp.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
 
