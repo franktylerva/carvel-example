@@ -18,10 +18,34 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 ```
 
-Air-gapped Workflow
+```
+minikube start
+minikube tunnel
+helm install harbor bitnami/harbor --values harbor/values.yaml
+kubectl create secret docker-registry regcred --docker-server=harbor --docker-username=admin --docker-password=password --docker-email=admin@mail.com
+```
 
+Creating a bundle
 
+```
+./create-kafka-bundle
+```
 
+```
+imgpkg copy -b harbor.cp.az.km.spaceforce.mil/legos-test/kafka:7.0.1 --to-tar=kafka.tar
+```
+
+```
+imgpkg copy --tar kafka.tar --to-repo=core.harbor.domain/library/kafka --registry-verify-certs=false
+```
+
+```
+imgpkg pull -b core.harbor.domain/library/kafka:7.0.1 -o temp --registry-verify-certs=false
+```
+
+```
+
+```
 
 
 Optionally, you can deploy Prometheus to monitor the cluster.

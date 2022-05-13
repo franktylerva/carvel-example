@@ -3,7 +3,7 @@
 rm -rf bundle
 mkdir -p bundle/.imgpkg
 
-OUTPUT=bundle/config-temp.yml
+OUTPUT=bundle/config.yml
 
 echo "Generating the k8s Configuration..."
 
@@ -11,6 +11,8 @@ helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/va
 
 echo "Generating the bundle..."
 
-kbld -f bundle/config-temp.yml --imgpkg-lock-output bundle/.imgpkg/images.yml > bundle/config.yml
+kbld -f bundle/config.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
 
-rm bundle/config-temp.yml
+echo "Pushing the bundle to harbor.cp.az.km.spaceforce.mil/legos-test/kafka:7.0.1..."
+
+imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/kafka:7.0.1 -f bundle

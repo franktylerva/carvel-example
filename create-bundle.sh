@@ -48,5 +48,8 @@ echo --- >> $OUTPUT
 
 echo "Generating the bundle..."
 
-kbld -f bundle/config-temp.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
+kbld -f bundle/config.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
 
+echo "Pushing the bundle to harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0..."
+
+imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0 -f bundle
