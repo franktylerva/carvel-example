@@ -3,7 +3,7 @@
 rm -rf bundle
 mkdir -p bundle/.imgpkg
 
-OUTPUT=bundle/config-temp.yml
+OUTPUT=bundle/config.yml
 
 echo "Generating the k8s Configuration..."
 
@@ -29,9 +29,6 @@ helm template keycloak bitnami/keycloak --skip-tests --values ./keycloak/values.
 echo --- >> $OUTPUT
 
 kubectl create configmap scripts -n atlas-observation-crud-service --from-file=./sql --dry-run=client -o yaml >> $OUTPUT
-echo --- >> $OUTPUT
-
-helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/values.yaml >> $OUTPUT
 echo --- >> $OUTPUT
 
 helm template infrastructure ./infrastructure --skip-tests >> $OUTPUT
