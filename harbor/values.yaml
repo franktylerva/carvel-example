@@ -1,1 +1,8 @@
 adminPassword: password
+# exposureType: ingress
+# externalURL: "https://harbor.test"
+# ingress:
+#   core:
+#     tls: true
+#     selfSigned: true
+#     hostname: "harbor.test"

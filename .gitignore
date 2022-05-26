@@ -2,3 +2,4 @@ bundle/**
 atlas.tar
 kafka.tar
 temp/**
+kafka-bundle/.imgpkg/images.yml

@@ -20,8 +20,12 @@ helm repo update
 
 ```
 minikube start
-minikube tunnel
+minikube addons enable ingress
+minikube addons enable ingress-dns
 helm install harbor bitnami/harbor --values harbor/values.yaml
+
+kubectl get secret harbor.test-tls -o jsonpath='{.data.ca\.crt}' | base64 --decode > ~/Desktop/harbor-ca.crt
+
 kubectl create secret docker-registry regcred --docker-server=harbor --docker-username=admin --docker-password=password --docker-email=admin@mail.com
 ```
 
