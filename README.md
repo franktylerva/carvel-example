@@ -53,43 +53,30 @@ kubectl create secret docker-registry regcred --docker-server=harbor --docker-us
 
 ## Creating a bundle
 
-1. Create a new bundle directory and save your Kubernetes configuration into the root of that directory.  Notice we are using a Helm chart to produce the configuration.
-    ```
-    mkdir -p kafka-bundle/.imgpkg
+This section is here for informational purposes.  The bundle referenced here has already been created and pushed to the KM Harbor repository.  You can skip to step 2 if you want save time and use the existing bundle.  If you do decide to run through these steps, just use a different version when creating and pushing the bundle.
 
-    helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/values.yaml > kafka-bundle/config.yml
+1. Create the new bundle using the provided script.  You can take a look at the script to see the usage of the various tools involved.
     ```
-
-2. Now we'll use the kbld tool to create an image lock file within the bundle directory under the .imgpkg directory called images.yml.
-
-    ```
-    kbld -f bundle/config.yml --imgpkg-lock-output kafka-bundle/.imgpkg/images.yml
-    ```
-    kbld will parse through the configuration and create the image lock file which maps the various images definitions to immutable image references.
-
-3. Next we'll use the imgpkg tools push commmand to push the bundle to our OCI compliant registry.
-
-    ```
-    imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/kafka:7.0.1 -f bundle
+    ./create-atlas-bundle.sh
     ```
 
-4.  Were now ready to move the bundle from our trusted registry to the air-gapped registry.  We'll do this using the imgpkg copy command.  This will pull the bundle, incliding the images into a tar file that can be shipped to the air-gapped environment via any means (diode, dvd, use drive, etc.).
+2.  Were now ready to move the bundle from our trusted registry to the air-gapped registry.  We'll do this using the imgpkg copy command.  This will pull the bundle, incliding the images into a tar file that can be shipped to the air-gapped environment via any means (diode, dvd, use drive, etc.).
     ```
-    imgpkg copy -b harbor.cp.az.km.spaceforce.mil/legos-test/kafka:7.0.1 --to-tar=kafka.tar
-    ```
-
-5. Once the tar file is in the air-gapped environment, we'll use the imgpkg copy command to load the bundle (configuration and images) into the OCI compliant registry located in the air-gapped environment.
-    ```
-    imgpkg copy --tar kafka.tar --to-repo=core.harbor.domain/library/kafka --registry-verify-certs=false
+    imgpkg copy -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0 --to-tar=atlas.tar
     ```
 
-6.  Now were ready to deploy the bundle to the air-gapped environment.  We'll use the imgpkg pull command to pull the configuration from the registry to a temporary directory.  Then we'll use the kbld command to transform the image references to images referencing the air-gapped registry.
+3. Once the tar file is in the air-gapped environment, we'll use the imgpkg copy command to load the bundle (configuration and images) into the OCI compliant registry located in the air-gapped environment.
     ```
-    imgpkg pull -b core.harbor.domain/library/kafka:7.0.1 -o temp --registry-verify-certs=false
+    imgpkg copy --tar atlas.tar --to-repo=core.harbor.domain/library/atlas --registry-verify-certs=false
+    ```
+
+4.  Now were ready to deploy the bundle to the air-gapped environment.  We'll use the imgpkg pull command to pull the configuration from the registry to a temporary directory.  Then we'll use the kbld command to transform the image references to images referencing the air-gapped registry.
+    ```
+    imgpkg pull -b core.harbor.domain/library/atlas:1.0.0 -o temp --registry-verify-certs=false
 
     kbld -f temp/config.yml -f temp/.imgpkg/images.yml | kubectl apply -f-
 
-    kapp -y deploy -a kafka -f <(kbld -f temp/config.yml -f temp/.imgpkg/images.yml)
+    kapp deploy -a atlas -f <(kbld -f temp/config.yml -f temp/.imgpkg/images.yml)
 
     ```
 

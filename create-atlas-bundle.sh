@@ -19,10 +19,16 @@ echo --- >> $OUTPUT
 kubectl create ns keycloak --dry-run=client -o yaml >> $OUTPUT
 echo --- >> $OUTPUT
 
+kubectl create ns kafka --dry-run=client -o yaml >> $OUTPUT
+echo --- >> $OUTPUT
+
 kubectl create ns atlas-orbital-crud-service --dry-run=client -o yaml >> $OUTPUT
 echo --- >> $OUTPUT
 
 kubectl create ns atlas-sensor-crud-service --dry-run=client -o yaml >> $OUTPUT
+echo --- >> $OUTPUT
+
+helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/values.yaml | ytt -f- -f ./kafka/config/ >> $OUTPUT
 echo --- >> $OUTPUT
 
 helm template keycloak bitnami/keycloak --skip-tests --values ./keycloak/values.yaml -n keycloak >> $OUTPUT

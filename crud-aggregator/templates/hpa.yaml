@@ -3,6 +3,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "crud-aggregator.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "crud-aggregator.labels" . | nindent 4 }}
 spec:

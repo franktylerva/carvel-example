@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: atlas-crud-aggregator-config
+  namespace: {{ .Release.Namespace | quote }}
 data:
   spring.security.oauth2.client.provider.atlas.tokenUri: http://atlas-orbital-crud-service.atlas-orbital-crud-service.svc/orbital-crud/token
 --- 
@@ -9,6 +10,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: atlas-crud-aggregator-schema-config
+  namespace: {{ .Release.Namespace | quote }}
 data:
   config.yaml: |-
     files:
