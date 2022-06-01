@@ -9,6 +9,7 @@ brew tap vmware-tanzu/carvel
 brew install ytt
 brew install kbld
 brew install kapp
+brew install imgpkg
 ```
 
 This project uses Helm Charts from Confluent and Bitnami.  Before running any of these scripts you'll need to add these chart repositories:
@@ -40,7 +41,15 @@ kubectl get svc harbor -n harbor
 NAME     TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                     AGE
 harbor   LoadBalancer   10.102.180.15   10.102.180.15   80:31108/TCP,443:32352/TCP,4443:32216/TCP   117s
 
-vi /etc/hosts
+sudo vi /etc/hosts
+
+127.0.0.1       localhost
+10.102.180.15   core.harbor.domain
+```
+
+Add the same host mapping inside the minikube vm:
+```
+sudo vi /etc/hosts
 
 127.0.0.1       localhost
 10.102.180.15   core.harbor.domain
@@ -60,7 +69,9 @@ This section is here for informational purposes.  The bundle referenced here has
     ./create-atlas-bundle.sh
     ```
 
-2.  Were now ready to move the bundle from our trusted registry to the air-gapped registry.  We'll do this using the imgpkg copy command.  This will pull the bundle, incliding the images into a tar file that can be shipped to the air-gapped environment via any means (diode, dvd, use drive, etc.).
+## Downloading the bundle to a tar file
+ 
+2.  Were now ready to move the bundle from our trusted registry to the air-gapped registry.  We'll do this using the imgpkg copy command.  This will pull the bundle, incliding the images into a tar file that can be shipped to the air-gapped environment via any means (diode, dvd, usb drive, etc.).
     ```
     imgpkg copy -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0 --to-tar=atlas.tar
     ```
@@ -70,13 +81,15 @@ This section is here for informational purposes.  The bundle referenced here has
     imgpkg copy --tar atlas.tar --to-repo=core.harbor.domain/library/atlas --registry-verify-certs=false
     ```
 
-4.  Now were ready to deploy the bundle to the air-gapped environment.  We'll use the imgpkg pull command to pull the configuration from the registry to a temporary directory.  Then we'll use the kbld command to transform the image references to images referencing the air-gapped registry.
+4.  Now were ready to deploy the bundle to the air-gapped environment.  We'll use the imgpkg pull command to pull the configuration from the registry to a temporary directory.  Then we'll use the kbld command to transform the image references to images referencing the air-gapped registry and install the application using one of two method(kapp,kubectl).
     ```
     imgpkg pull -b core.harbor.domain/library/atlas:1.0.0 -o temp --registry-verify-certs=false
 
-    kbld -f temp/config.yml -f temp/.imgpkg/images.yml | kubectl apply -f-
-
+    # kapp will order the deployments
     kapp deploy -a atlas -f <(kbld -f temp/config.yml -f temp/.imgpkg/images.yml)
+
+    # kubectl will not order the deployments, so restarts may occur for some of the containers
+    kbld -f temp/config.yml -f temp/.imgpkg/images.yml | kubectl apply -f-
 
     ```
 
