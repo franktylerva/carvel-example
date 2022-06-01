@@ -18,13 +18,35 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 ```
 
+Start a new minikube cluster:
 ```
 minikube start
-minikube addons enable ingress
-minikube addons enable ingress-dns
-helm install harbor bitnami/harbor --values harbor/values.yaml
+```
 
-kubectl get secret harbor.test-tls -o jsonpath='{.data.ca\.crt}' | base64 --decode > ~/Desktop/harbor-ca.crt
+Start a minikube tunnel in another terminal:
+```
+minikube tunnel
+```
+
+Using Helm, install the Harbor registry in the harbor namespace: 
+```
+helm install harbor bitnami/harbor --values harbor/values.yaml -n harbor --create-namespace
+```
+
+Get the external ip of the harbor service in the harbor namespace and add an entry to your /etc/hosts file:
+```
+kubectl get svc harbor -n harbor
+
+NAME     TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                     AGE
+harbor   LoadBalancer   10.102.180.15   10.102.180.15   80:31108/TCP,443:32352/TCP,4443:32216/TCP   117s
+
+vi /etc/hosts
+
+127.0.0.1       localhost
+10.102.180.15   core.harbor.domain
+```
+
+You should now be able to navigate to the Harbor ui via a browser: https://core.harbor.domain/harbor/projects
 
 kubectl create secret docker-registry regcred --docker-server=harbor --docker-username=admin --docker-password=password --docker-email=admin@mail.com
 ```
@@ -65,33 +87,13 @@ kubectl create secret docker-registry regcred --docker-server=harbor --docker-us
     ```
     imgpkg pull -b core.harbor.domain/library/kafka:7.0.1 -o temp --registry-verify-certs=false
 
-    kbld -f ./config.yml -f .imgpkg/images.yml | kubectl apply -f-
-    ```
+    kbld -f temp/config.yml -f temp/.imgpkg/images.yml | kubectl apply -f-
 
+    kapp -y deploy -a kafka -f <(kbld -f temp/config.yml -f temp/.imgpkg/images.yml)
+
+    ```
 
 Optionally, you can deploy Prometheus to monitor the cluster.
 ```
 kapp deploy -a prometheus -f <(helm template prometheus bitnami/kube-prometheus)
-```
-
-Deploy the suite of applications:
-```
-./deploy
-```
-
-Undeploy the suite of applications:
-```
-./undeploy.sh
-```
-
-```
-helm install observation-crud ./observation-crud -n atlas-observation-crud-service --create-namespace
-```
-
-```
-kubectl exec -it observation-crud-postgresql-0 -n atlas-observation-crud-service -- sh -c "psql -U dbuser -d obsdb -a -f /scripts/create-schema.sql"
-```
-
-```
-kubectl exec -it observation-crud-postgresql-0 -n atlas-observation-crud-service -- sh -c "psql -U dbuser -d obsdb -a -f /scripts/drop-schema.sql"
 ```

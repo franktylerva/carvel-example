@@ -7,7 +7,7 @@ OUTPUT=bundle/config.yml
 
 echo "Generating the k8s Configuration..."
 
-helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/values.yaml > $OUTPUT
+helm template kafka confluentinc/cp-helm-charts --skip-tests --values ./kafka/values.yaml | ytt -f- -f ./kafka/config/ > $OUTPUT
 
 echo "Generating the bundle..."
 
