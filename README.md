@@ -63,26 +63,38 @@ You should now be able to navigate to the Harbor ui via a browser: https://core.
 
 ## Creating a bundle
 
-This section is here for informational purposes.  The bundle referenced here has already been created and pushed to the KM Harbor repository.  You can skip to step 2 if you want save time and use the existing bundle.  If you do decide to run through these steps, just use a different version when creating and pushing the bundle.
+This section is here for informational purposes.  The bundle referenced here has already been created and pushed to the KM Harbor repository.  You can skip to the next section, Downloading the bundle to a tar file, if you want save time and use the existing bundle.  If you do decide to run through these steps, just use a different version when creating and pushing the bundle.
 
-1. Create the new bundle using the provided script.  You can take a look at the script to see the usage of the various tools involved.
+1. Create the new bundle using the provided script.  This script creates the directory structure for the bundle by generating a kubernetes manifest (bundle/config.yml) based on all the applications and their dependencies.
     ```
     ./create-atlas-bundle.sh
     ```
 
+2. Use kbld to generate an image lock file within the bundle directory structure under the bundle/.imgpkg directory.
+```
+kbld -f bundle/config.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
+```
+
+3. Now we have a complete bundle so we'll push it to the KM Harbor repository using the imgpkg push command.
+```
+imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0 -f bundle
+```
+
 ## Downloading the bundle to a tar file
  
-2.  Were now ready to move the bundle from our trusted registry to the air-gapped registry.  We'll do this using the imgpkg copy command.  This will pull the bundle, incliding the images into a tar file that can be shipped to the air-gapped environment via any means (diode, dvd, usb drive, etc.).
+We now have a bundle in the KM Harbor repository that we want to move to another environment.  The current bundle contains only references to all the images.  We'll use the imgpkg tool to copy the bundle to a tar file that includes all the images and configurations necessary to install the bundle.
+
+1.  Move the bundle from our trusted registry to the air-gapped registry.  We'll do this using the imgpkg copy command.  This will pull the bundle, including the images into a tar file that can be shipped to the air-gapped environment via any means (diode, dvd, usb drive, etc.).
     ```
     imgpkg copy -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0 --to-tar=atlas.tar
     ```
 
-3. Once the tar file is in the air-gapped environment, we'll use the imgpkg copy command to load the bundle (configuration and images) into the OCI compliant registry located in the air-gapped environment.
+2. Once the tar file is in the air-gapped environment, we'll use the imgpkg copy command to load the bundle (configuration and images) into the OCI compliant registry located in the air-gapped environment.
     ```
     imgpkg copy --tar atlas.tar --to-repo=core.harbor.domain/library/atlas --registry-verify-certs=false
     ```
 
-4.  Now were ready to deploy the bundle to the air-gapped environment.  We'll use the imgpkg pull command to pull the configuration from the registry to a temporary directory.  Then we'll use the kbld command to transform the image references to images referencing the air-gapped registry and install the application using one of two method(kapp,kubectl).
+3.  Now were ready to deploy the bundle to the air-gapped environment.  We'll use the imgpkg pull command to pull the configuration from the registry to a temporary directory.  Then we'll use the kbld command to transform the image references to images referencing the air-gapped registry and install the application using one of two methods(kapp,kubectl).
     ```
     imgpkg pull -b core.harbor.domain/library/atlas:1.0.0 -o temp --registry-verify-certs=false
 
@@ -93,8 +105,3 @@ This section is here for informational purposes.  The bundle referenced here has
     kbld -f temp/config.yml -f temp/.imgpkg/images.yml | kubectl apply -f-
 
     ```
-
-Optionally, you can deploy Prometheus to monitor the cluster.
-```
-kapp deploy -a prometheus -f <(helm template prometheus bitnami/kube-prometheus)
-```

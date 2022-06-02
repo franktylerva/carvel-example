@@ -48,11 +48,3 @@ echo --- >> $OUTPUT
 
 helm template crud-aggregator ./crud-aggregator --skip-tests -n atlas-observation-crud-service >> $OUTPUT
 echo --- >> $OUTPUT
-
-echo "Generating the bundle..."
-
-kbld -f bundle/config.yml --imgpkg-lock-output bundle/.imgpkg/images.yml
-
-echo "Pushing the bundle to harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0..."
-
-imgpkg push -b harbor.cp.az.km.spaceforce.mil/legos-test/atlas:1.0.0 -f bundle
