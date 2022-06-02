@@ -12,6 +12,8 @@ brew install kapp
 brew install imgpkg
 ```
 
+## Setting up a minikube cluster
+
 This project uses Helm Charts from Confluent and Bitnami.  Before running any of these scripts you'll need to add these chart repositories:
 ```
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
@@ -28,6 +30,8 @@ Start a minikube tunnel in another terminal:
 ```
 minikube tunnel
 ```
+
+## Installing Harbor
 
 Using Helm, install the Harbor registry in the harbor namespace: 
 ```
@@ -56,9 +60,6 @@ sudo vi /etc/hosts
 ```
 
 You should now be able to navigate to the Harbor ui via a browser: https://core.harbor.domain/harbor/projects
-
-kubectl create secret docker-registry regcred --docker-server=harbor --docker-username=admin --docker-password=password --docker-email=admin@mail.com
-```
 
 ## Creating a bundle
 
