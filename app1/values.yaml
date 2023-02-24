@@ -1,18 +1,15 @@
-# Default values for helm.
+# Default values for crud-aggregator.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  #repository: harbor.cp.az.km.spaceforce.mil/atlas/observation-crud/observation-crud-service
-  # repository: observation-crud-app 
-  repository: harbor.cp.az.km.spaceforce.mil/legos-test/observation-crud-app
+  repository: nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  # tag: "latest"
-  tag: 1.0.0-SNAPSHOT
-  #tag: pack
+  tag: latest
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -41,16 +38,16 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 80
 
 ingress:
-  enabled: true
+  enabled: false
   className: ""
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: observation-crud-service.local
+    - host: chart-example.local
       paths:
         - path: /
           pathType: ImplementationSpecific
@@ -59,17 +56,17 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources:
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: "5000m"
-    memory: "3072Mi"
-  requests:
-    cpu: "1000m"
-    memory: "1024Mi"
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false
@@ -83,6 +80,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-app:
-  configMap: atlas-observation-crud-config

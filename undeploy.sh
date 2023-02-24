@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kapp delete -a atlas
+kapp delete -a system
